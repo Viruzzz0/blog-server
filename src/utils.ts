@@ -1,20 +1,30 @@
-interface NewLuxEntry {
-  date: Date
-  text?: string
-  image?: Blob
-}
+import { type NewLuxEntry } from './types'
 
-const parseText = (text: string): string => {
-  if (typeof text !== 'string') {
+const parseText = (textFromRequest: any): string => {
+  if (!isString(textFromRequest)) {
     throw new Error('Incorrect or missing comment')
   }
-  return text
+  return textFromRequest
+}
+
+const parseDate = (dateFromRequest: any): Date => {
+  if (!isString(dateFromRequest) || !isDate(dateFromRequest)) {
+    throw new Error('Incorrect or missing comment')
+  }
+  return dateFromRequest
+}
+
+const isString = (text: string): boolean => {
+  return typeof text === 'string'
+}
+const isDate = (text: string): boolean => {
+  return Boolean(Date.parse(text))
 }
 
 export const toNewLuxEntry = (object: any): NewLuxEntry => {
   const entry: NewLuxEntry = {
     text: parseText(object.message),
-    date: object.date,
+    date: parseDate(object.date),
     image: object.file
   }
   return entry
