@@ -4,7 +4,7 @@ import { model, Schema } from 'mongoose'
 const luxerSchema = new Schema({
   text: String,
   date: Date,
-  imagen: {
+  image: {
     name: String,
     fieldname: String,
     originalname: String,

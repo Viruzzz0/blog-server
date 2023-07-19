@@ -17,6 +17,7 @@ const parseDate = (dateFromRequest: any): Date => {
 const isString = (text: string): boolean => {
   return typeof text === 'string'
 }
+
 const isDate = (text: string): boolean => {
   return Boolean(Date.parse(text))
 }
