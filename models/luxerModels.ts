@@ -5,13 +5,24 @@ const luxerSchema = new Schema({
   text: String,
   date: Date,
   image: {
-    name: String,
-    fieldname: String,
-    originalname: String,
-    encoding: String,
-    mimetype: String,
-    buffer: Buffer,
-    size: Number
+    imageOptimized: {
+      name: String,
+      fieldname: String,
+      originalname: String,
+      encoding: String,
+      mimetype: String,
+      buffer: Buffer,
+      size: Number
+    },
+    imageOriginal: {
+      name: String,
+      fieldname: String,
+      originalname: String,
+      encoding: String,
+      mimetype: String,
+      buffer: Buffer,
+      size: Number
+    }
   }
 })
 
