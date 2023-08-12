@@ -1,7 +1,13 @@
-import { type NewLuxEntry } from './types'
+import { type NewLuxEntry, ImageData } from './types'
 import tinify from 'tinify'
 
-tinify.key = 'NjQBXFBwb01L863NCjQDrLX1z8YczFdz'
+const { KEY_TINIFY } = process.env
+
+if (typeof KEY_TINIFY === 'undefined') {
+  throw new Error('KEY_TINIFY no está definida en las variables de entorno.')
+}
+
+tinify.key = KEY_TINIFY
 
 const parseText = (textFromRequest: any): string => {
   if (!isString(textFromRequest)) {
@@ -17,11 +23,12 @@ const parseDate = (dateFromRequest: any): Date => {
   return dateFromRequest
 }
 
-const parseImage = async (file: any): Promise<Uint8Array | null> => {
+const parseImage = async (file: any): Promise<ImageData> => {
   const format = file.originalname.split('.').pop()
   if (format === 'gif' || format === 'webp') return file
   try {
     const compressedImageBuffer = await tinify.fromBuffer(file.buffer).toBuffer()
+
     return {
       ...file,
       buffer: compressedImageBuffer
@@ -44,7 +51,7 @@ export const toNewLuxEntry = async (object: any): Promise<NewLuxEntry> => {
     text: parseText(object.message),
     date: parseDate(object.date),
     image: {
-      imageOptimized: typeof object.file === 'undefined' ? null : await parseImage(object.file),
+      imageOptimized: typeof object.file === 'undefined' ? undefined : await parseImage(object.file),
       imageOriginal: object.file
     }
   }

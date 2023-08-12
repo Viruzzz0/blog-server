@@ -1,5 +1,15 @@
 export interface NewLuxEntry {
   date: Date
   text?: string
-  image: Promise<Uint8Array>
+  image: {
+    imageOptimized?: ImageData
+    imageOriginal?: ImageData
+  }
+}
+
+export interface ImageData {
+  originalname: string
+  mimetype: string
+  encoding: string
+  buffer: Uint8Array
 }

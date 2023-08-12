@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development ts-node-dev --transpile-only src/main.ts",
-    "start": "cross-env NODE_ENV=production ts-node --transpile-only src/main.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev src/main.ts",
+    "start": "cross-env NODE_ENV=production ts-node src/main.ts",
     "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles",
     "lint": "ts-standard"
   },
