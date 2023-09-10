@@ -8,6 +8,7 @@ const isTest = NODE_ENV === 'development' || NODE_ENV === 'test'
   : MONGODB_DB_STORE
 
 if (MONGODB_PASSWORD === undefined || isTest === undefined) {
+  console.log('🚀 ~ file: db.ts:11 ~ NODE_ENV:', NODE_ENV)
   console.log('🚀 ~ file: db.ts:11 ~ isTest:', isTest)
   console.log('🚀 ~ file: db.ts:11 ~ MONGODB_PASSWORD:', MONGODB_PASSWORD)
   throw new Error(`MONGODB_PASSWORD o MONGODB_DB_STORE no está definida en las variables de entorno. ${MONGODB_PASSWORD} ${isTest}`)
