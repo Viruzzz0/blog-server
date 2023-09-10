@@ -3,11 +3,13 @@ import mongoose from 'mongoose'
 // const ServerConnection = async (): Promise<void> => {
 const { MONGODB_PASSWORD, MONGODB_DB_STORE, MONGODB_DB_STORE_TEST, NODE_ENV } = process.env
 
-const isTest = NODE_ENV === 'development' || NODE_ENV === 'test'
-  ? MONGODB_DB_STORE_TEST
-  : MONGODB_DB_STORE
+const isTest = NODE_ENV === 'production'
+  ? MONGODB_DB_STORE
+  : MONGODB_DB_STORE_TEST
 
 if (MONGODB_PASSWORD === undefined || isTest === undefined) {
+  console.log('🚀 ~ file: db.ts:11 ~ MONGODB_DB_STORE:', MONGODB_DB_STORE)
+  console.log('🚀 ~ file: db.ts:11 ~ MONGODB_DB_STORE_TEST:', MONGODB_DB_STORE_TEST)
   console.log('🚀 ~ file: db.ts:11 ~ NODE_ENV:', NODE_ENV)
   console.log('🚀 ~ file: db.ts:11 ~ isTest:', isTest)
   console.log('🚀 ~ file: db.ts:11 ~ MONGODB_PASSWORD:', MONGODB_PASSWORD)
