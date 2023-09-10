@@ -1,9 +1,9 @@
 import 'dotenv/config'
-import './db'
 import express from 'express'
 import cors from 'cors'
 import { router } from './routes/luxear.routes'
 import userRoutes from './routes/user.routes'
+import './db'
 
 // ServerConnection()
 
