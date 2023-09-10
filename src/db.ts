@@ -8,7 +8,7 @@ const isTest = NODE_ENV === 'development' || NODE_ENV === 'test'
   : MONGODB_DB_STORE
 
 if (MONGODB_PASSWORD === undefined || isTest === undefined) {
-  throw new Error('USER_PASSWORD o DB_STORE no está definida en las variables de entorno.')
+  throw new Error('MONGODB_PASSWORD o MONGODB_DB_STORE no está definida en las variables de entorno.')
 }
 
 const url = `mongodb+srv://milanesa:${MONGODB_PASSWORD}@luxer.rfoaz85.mongodb.net/${isTest}?retryWrites=true&w=majority`
