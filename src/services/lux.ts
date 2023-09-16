@@ -9,7 +9,7 @@ interface interLuxProps {
 }
 
 export const getLux = async (numberElements: number): Promise<ResponseLuxerstype> => {
-  const responseGet = await LuxerModels.find({}, { 'image.imageOptimized': 1, text: 1, date: 1, _id: 0 })
+  const responseGet = await LuxerModels.find({}, { 'image.imageOptimized': 1, text: 1, date: 1, id: 1, _id: 0 })
     .sort({ _id: -1 }).limit(numberElements)
 
   return responseGet

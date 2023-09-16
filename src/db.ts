@@ -12,7 +12,6 @@ if (MONGODB_PASSWORD === undefined || isTest === undefined) {
 }
 
 const url = `mongodb+srv://milanesa:${MONGODB_PASSWORD}@luxer.rfoaz85.mongodb.net/${isTest}?retryWrites=true&w=majority`
-// const urlUser = `mongodb+srv://milanesa:${MONGODB_PASSWORD}@luxer.rfoaz85.mongodb.net/user?retryWrites=true&w=majority`
 
 mongoose
   .connect(url)
