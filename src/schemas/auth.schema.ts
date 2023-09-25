@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { imageOriginalSchema, luxerSchema } from './luxer.schema'
+import { imageOriginalSchema, luxerSchemaWithId } from './luxer.schema'
 
 export const CreateUserSchema = z.object({
   body: z.object({
@@ -8,7 +8,7 @@ export const CreateUserSchema = z.object({
       email: z.string().email().nonempty()
     }),
     uid: z.string().nonempty(),
-    myLux: z.array(luxerSchema).optional()
+    myLux: z.array(luxerSchemaWithId).optional()
   })
 })
 
@@ -29,6 +29,14 @@ export const GetUserSchema = z.object({
   })
 })
 
+export const DeleteUserLuxSchema = z.object({
+  params: z.object({
+    uid: z.string(),
+    id: z.string()
+  })
+})
+
+export type DeleteUserLuxParamsType = z.infer<typeof DeleteUserLuxSchema>['params']
 export type GetUserParamsType = z.infer<typeof GetUserSchema>['params']
 
 export type CreateUserType = z.infer<typeof CreateUserSchema>['body']

@@ -41,14 +41,20 @@ export const CreateLuxSchema = z.object({
   file: imageOriginalSchema.optional()
 })
 
+export const luxerSchemaWithId = luxerSchema.extend({
+  id: z.string() // Puedes cambiar el tipo de "id" según tus necesidades
+})
+
 export const ResponseLuxersSchema = z.array(luxerSchema)
 
 export type GetLuxersParamsType = z.infer<typeof GetLuxersSchema>['params']
 export type GetLuxersType = z.infer<typeof luxerSchema>
 
-export interface CreateLuxAndIdType extends GetLuxersType {
-  id: String
-}
+export type CreateLuxAndIdType = z.infer<typeof luxerSchemaWithId>
+
+// export interface CreateLuxAndIdType extends GetLuxersType {
+//   id: String
+// }
 
 export type ResponseLuxerstype = z.infer<typeof ResponseLuxersSchema>
 

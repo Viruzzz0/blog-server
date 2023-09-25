@@ -1,5 +1,5 @@
 import UserModel from '../models/userModels'
-import { CreateUserType, UpdateUserParamsType, UpdateUserBodyType, UpdateUserFileType, GetUserParamsType } from '../schemas/auth.schema'
+import { CreateUserType, UpdateUserParamsType, UpdateUserBodyType, UpdateUserFileType, GetUserParamsType, DeleteUserLuxParamsType } from '../schemas/auth.schema'
 import imageCompressed from './imageCompression'
 import { randomUUID } from 'crypto'
 
@@ -16,7 +16,7 @@ export const interUser = async (item: CreateUserType): Promise<CreateUserType> =
 
 export const interUserLux = async ({ body, params, file }: interUserLuxProps): Promise<CreateUserType | null> => {
   const responseMDB = await UserModel.findOne(params)
-  const prevMylux = [...(responseMDB?.myLux ?? [])]
+  const prevMylux = [...responseMDB?.myLux ?? []]
   const imageCompressedBuffer = await imageCompressed(file)
 
   const newLux = {
@@ -46,6 +46,7 @@ export const getAllUsers = async (): Promise<CreateUserType[]> => {
 
 export const getOneUser = async (params: GetUserParamsType): Promise<CreateUserType | null> => {
   const filter = {
+    'myLux.id': 1,
     'myLux.text': 1,
     'myLux.date': 1,
     'myLux.image.imageOptimized': 1,
@@ -56,4 +57,22 @@ export const getOneUser = async (params: GetUserParamsType): Promise<CreateUserT
   const user = await UserModel.findOne(params, filter)
 
   return user
+}
+
+export const removeUserLux = async ({ uid, id }: DeleteUserLuxParamsType): Promise<any> => {
+  const user = await UserModel.findOne({ uid })
+  if (typeof user?.myLux === 'undefined') throw new Error('User not found')
+
+  const indexLux = user.myLux.findIndex((item) => item.id === id)
+  const newMyLux = [...user?.myLux ?? []]
+  if (indexLux === -1) throw new Error('Lux not found')
+
+  newMyLux.splice(indexLux, 1)
+  const newEntry = {
+    myLux: newMyLux
+  }
+
+  const responseInsert = await UserModel.findOneAndUpdate({ uid }, newEntry, { new: true })
+
+  return responseInsert
 }

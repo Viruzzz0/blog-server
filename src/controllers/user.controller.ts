@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { CreateUserType, UpdateUserBodyType, UpdateUserParamsType, GetUserParamsType } from '../schemas/auth.schema'
-import { interUser, interUserLux, getAllUsers, getOneUser } from '../services/user'
+import { CreateUserType, UpdateUserBodyType, UpdateUserParamsType, GetUserParamsType, DeleteUserLuxParamsType } from '../schemas/auth.schema'
+import { interUser, interUserLux, getAllUsers, getOneUser, removeUserLux } from '../services/user'
 
 type createUserType = (
   req: Request<unknown, unknown, CreateUserType>,
@@ -19,6 +19,11 @@ type getUsersType = (
 
 type getUserType = (
   req: Request<GetUserParamsType>,
+  res: Response
+) => Promise<void>
+
+type deleteUserLuxType = (
+  req: Request<DeleteUserLuxParamsType>,
   res: Response
 ) => Promise<void>
 
@@ -49,30 +54,14 @@ export const getUser: getUserType = async (req, res) => {
   res.send(users)
 }
 
-// import { Request, Response } from 'express'
-// import { CreateUserType, UpdateUserBodyType, UpdateUserParamsType } from '../schemas/auth.schema'
-// import { interUser } from '../services/interUser'
-// import { interLux } from '../services/interLux'
+export const deleteUserLux: deleteUserLuxType = async (req, res) => {
+  try {
+    const lux = await removeUserLux(req.params)
 
-// export const createUser = async (
-//   req: Request<unknown, unknown, CreateUserType>,
-//   res: Response
-// ): Promise<void> => {
-//   const responseItem = await interUser(req.body)
-//   console.log('Creating user')
-//   res.send(responseItem)
-// }
-
-// export const updateUser = async (
-//   req: Request<UpdateUserParamsType, unknown, UpdateUserBodyType>,
-//   res: Response
-// ): Promise<void> => {
-//   console.log('Updating user')
-//   const responseItem = await interLux(req.body, req.params)
-
-//   if (responseItem == null) {
-//     res.status(404).send({ message: 'User not found' })
-//     return
-//   }
-//   res.send(responseItem)
-// }
+    res.send(lux)
+  } catch (err) {
+    if (err instanceof Error) {
+      res.status(404).send({ message: err.message })
+    }
+  }
+}
